@@ -1,0 +1,71 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+ }
+ .mi-tablita {
+     border: 1px solid #ccc;     
+     padding: 10px;              
+     margin: 5px;
+     width: 50px;  
+     height: 50px;       
+     list-style-type: none;      
+     cursor: pointer;
+     text-align: center;
+     font-size: 40px;
+     font-weight: bold;
+ }
+ 
+ 
+ 
+ .mi-tablita:hover {
+     background-color: #e0e0e0;
+ }
+ .mi-tablita:hover {
+     transform: scale(1.1);  
+ 
+ }
+ h2 {
+     text-align: center;
+     color: #000000;
+     font-size: 20px;
+     font-family: monospace;
+ }
+ 
+ h3 {
+     text-align: center;
+     color: #000000;
+     font-size: 15px;
+     font-family: monospace;
+ }
+ ul {
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     margin: 0;
+     padding: 0;
+ }
+ 
+ 
+ .teclado {
+     margin-top: 25px;
+     margin-left: 35%;
+ }
+ 
+ .mi-tecla {
+     font-weight: bold;
+ 
+     background-color: #E2E8F0;
+     padding: 14px 20px;
+     margin: 2px 5px;
+     border: none;
+     border-radius: 3px;
+     cursor: pointer;
+ }
+ 
+ .mi-tecla:hover {
+     background-color: #e0e0e0;
+     transform: scale(1.1);  
+ }
+   
+ .mi-tecla:focus {
+     outline: none;
+ }
