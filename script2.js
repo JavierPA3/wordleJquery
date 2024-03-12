@@ -1,4 +1,7 @@
 const wordle_negocio = (function () {
+    /**
+    Author: Javier
+    */
     const palabras = [
         "sabor", "luzca", "bravo", "moral", "cruce", "grano", "plaza", "fluir", "traje", "creer",
         "jugar", "miedo", "noble", "ocaso", "pudor", "quema", "roble", "sutil", "trote", "unido",
