@@ -1,7 +1,4 @@
 const wordle_negocio = (function () {
-    /** 
-    Author: Postigo Arévalo Javier
-    */
     const palabras = [
         "sabor", "luzca", "bravo", "moral", "cruce", "grano", "plaza", "fluir", "traje", "creer",
         "jugar", "miedo", "noble", "ocaso", "pudor", "quema", "roble", "sutil", "trote", "unido",
@@ -15,6 +12,7 @@ const wordle_negocio = (function () {
         "rosas", "soplo", "tulip", "uvula", "virus", "whisky", "yogurt", "zocalo", "acero", "bongo"
     ];
     let palabraRandom = '';
+    let intentos = 0;
 
     // Inicializa la palabra aleatoria
     const init = function () {
@@ -60,7 +58,7 @@ const wordle_negocio = (function () {
         if (solucion.every(letra => letra === 'v')) {
             console.log('HAS GANADO!!');
         }
-
+        intentos--;
         // Devolver el array de solución ('v', 'a', 'g')
         return solucion;
     };
@@ -68,7 +66,8 @@ const wordle_negocio = (function () {
     return {
         init: init,
         mostrarPalabra: mostrarPalabra,
-        comprobador: comprobador
+        comprobador: comprobador,
+        intentos: intentos,
     };
 })();
 
@@ -78,8 +77,8 @@ $(function () {
         let palabritaUsuario = [];
         let acumulador = 0;
         const palabraSeleccionada = wordle_negocio.mostrarPalabra();
+        let gameEnded = true;
 
-        // Función para crear y agregar elementos al DOM
         function createAndAppendElement(elementType, text, parent) {
             const element = $("<" + elementType + ">");
             element.html(text);
@@ -87,7 +86,6 @@ $(function () {
             return element;
         }
 
-        // Crea la interfaz inicial
         function createInterface() {
             createAndAppendElement("h2", "LA PALABRA", $("body"));
             createAndAppendElement("h3", "DEL DÍA", $("body"));
@@ -106,7 +104,6 @@ $(function () {
             }
         }
 
-        // Crea el teclado virtual
         function createKeyboard() {
             const divTeclado = createAndAppendElement('div', '', $("body"));
             divTeclado.addClass('teclado');
@@ -125,9 +122,10 @@ $(function () {
             $("body").append(divTeclado);
         }
 
-        // Agrega funcionalidades al juego
         function createFunctionality() {
-            // Maneja el evento keydown para la tecla Backspace
+            let intentos = 6;
+            console.log(gameEnded);
+            if (gameEnded) {
             $(document).on("keydown", function (event) {
                 if (event.key === "Backspace") {
                     palabritaUsuario.pop();
@@ -135,8 +133,6 @@ $(function () {
                     uls.eq(row).children().eq(palabritaUsuario.length).val("");
                 }
             });
-
-            // Maneja el evento click para las teclas del teclado virtual
             $(document).on("click", function (event) {
                 if ($(event.target).prop("tagName") !== "BUTTON") return;
 
@@ -184,11 +180,39 @@ $(function () {
                     palabritaUsuario = [];
                     cont = 0;
                     acumulador += 5;
-                } else if (targetText !== "ENVIAR" && palabritaUsuario.length !== 5) {
+                    intentos--;
+
+                        if (savedGuesses.every(letra => letra === 'v')) {
+                            console.log('Victory condition met');
+                            console.log(gameEnded);
+                            gameEnded = false;
+                            const mensajeVictoria = $("<div>").text('¡HAS GANADO!').css({
+                                "color": "green",
+                                "font-size": "2em",
+                                "text-align": "center"
+                            });
+                             
+                            $("body").append(mensajeVictoria);
+                        } else {
+                            if (intentos === 0) {
+                                console.log('Defeat condition met');
+                                gameEnded = true;
+                                const mensajeDerrota = $("<div>").text('¡HAS PERDIDO!').css({
+                                    "color": "red",
+                                    "font-size": "2em",
+                                    "text-align": "center"
+                                });
+                                $("body").append(mensajeDerrota);
+                            }
+                        }
+                    
+                    
+                } else if (targetText !== "ENVIAR" && palabritaUsuario.length !== 5 && gameEnded) {
                     uls.eq(row).children().eq(palabritaUsuario.length).val(targetText.toUpperCase());
                     palabritaUsuario.push(targetText);
                 }
             });
+        }
         }
 
         return {
